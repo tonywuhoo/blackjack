@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="blackjack.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <title>BlackJack by Tony Wu</title>
+</head>
+<body>
+  <div class="modal">
+    <div class="modal-content">
+      <span class="content-here">Busted! House Wins.</span>
+    </div>
+  </div>
+<div class="board">
+  <h1>Blackjack by Tony Wu
+    <br>
+    <button class="startGAME">Deal</button>
+  </h1>
+  <div class="stuff">
+    <button id="Hit">Hit</button>
+    <button id="Stand">Stand</button>
+  </div>
+  <br><br><br><br>
+    <img class="firstImage" src="background/snoopyfirstIMAGE.gif">
+  <div class = "Cards">
+    <div class="playerContainer">
+        <br>
+      <span>Score: <span class="PLAYERSCORE"></span> </span>
+      <div class="playerContainerRow1">
+        <div class="playerInnerSlot" id="p1"><img class = "CARDIMAGE" ></div>
+        <div class="playerInnerSlot" id="p2"><img class = "CARDIMAGE" ></div>
+        <div class="playerInnerSlot" id="p3"><img class = "CARDIMAGE" ></div>
+      </div>
+
+      <div class="playerContainerRow2">
+        <div class="playerInnerSlot" id="p4"><img class = "CARDIMAGE" ></div>
+        <div class="playerInnerSlot" id="p5"><img class = "CARDIMAGE" ></div>
+        <div class="playerInnerSlot" id="p6"><img class = "CARDIMAGE" ></div>
+      </div>
+  </div>
+
+  <div class="computerContainer">
+    <br>
+    <span>Score: <span class="CPUSCORE"></span> </span>
+    <div class="computerContainerRow1">
+      <div class="computerInnerSlot" id="c1"><img class = "CARDIMAGE" ></div>
+      <div class="computerInnerSlot" id="c2"><img class = "CARDIMAGE" ></div>
+      <div class="computerInnerSlot" id="c3"><img class = "CARDIMAGE" ></div>
+    </div>
+
+    <div class="computerContainerRow2">
+      <div class="computerInnerSlot" id="c4"><img class = "CARDIMAGE" ></div>
+      <div class="computerInnerSlot" id="c5"><img class = "CARDIMAGE" ></div>
+      <div class="computerInnerSlot" id="c6"><img class = "CARDIMAGE" ></div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+<br>
+  <img id = "shuffleImage" src="">
+<script>
+  let hitButton = document.getElementById("Hit")
+  let standButton = document.querySelector("#Stand")
+  hitButton.addEventListener("click", hitDeck)
+  // standButton.addEventListener("click", standDeck)
+
+
+  let getCards = document.querySelector(".Cards")
+  let startGame = document.getElementsByClassName("startGAME")
+  for(let i = 0; i < startGame.length ; i++){
+    startGame[i].addEventListener("click", boardStart)
+  }
+  let modal = document.querySelector(".modal");
+    let modalContent = document.querySelector(".content-here")
+    closeButton.addEventListener("click", CloseModal);
+    function ToggleModal() {
+      modal.classList.toggle("show-modal")
+      setTimeout(continueGame, 2000)
+      function continueGame(){
+      document.getElementById("p3").childNodes[0].src = ""
+      document.getElementById("p4").childNodes[0].src = ""
+      document.getElementById("p5").childNodes[0].src = ""
+      document.getElementById("p6").childNodes[0].src = ""
+      modal.classList.toggle("show-modal")
+      boardStart()
+      }
+      return
+    }
+</script>
+</body>
+</html>
