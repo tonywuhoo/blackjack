@@ -1,19 +1,19 @@
+let cpuImage = 1
 function boardStart() {
+  cpuImage = 1
   document.querySelector(".firstImage").src = ""
   if (getCards.classList = "show-Cards") {
     getCards.classList = "Cards"
-    setTimeout(doThis, 600)
+    setTimeout(doThis, 200)
   }
   else {
     doThis()
   }
   return 
 }
-
-
 async function doThis() {
   document.getElementById("shuffleImage").src = "background/snoopyshuffling.gif"
-  setTimeout(stopShuffleStartGAME, 2750)
+  setTimeout(stopShuffleStartGAME, 1000)
   async function stopShuffleStartGAME() {
     document.getElementById("shuffleImage").src = ""
   await fetch("https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6")
@@ -79,6 +79,7 @@ async function doThis() {
 }
 hitNumber = 2
 async function hitDeck() {
+  console.log("Player Hits")
   hitNumber++ 
   fetch("https://www.deckofcardsapi.com/api/deck/" + deckInfo.deck_id + "/draw/?count=1")
     .then(response => {
@@ -94,17 +95,70 @@ async function hitDeck() {
       else {
         addValue = data.cards[0].value
       }
-      
       parseFloat(addValue)
       thisHitNumber = "p" + hitNumber
       newHitImage = data.cards[0].image
       document.getElementById(thisHitNumber).childNodes[0].src = newHitImage
       document.getElementsByClassName("PLAYERSCORE")[0].innerText = parseFloat(document.getElementsByClassName("PLAYERSCORE")[0].innerText) + parseFloat(addValue)
-      if (document.getElementsByClassName("PLAYERSCORE")[0].innerText > 21) {
+        if (document.getElementsByClassName("PLAYERSCORE")[0].innerText > 21) {
         hitNumber = 2
-        ToggleModal()
+        HouseWin()
       }
       return 
       })
   return
+}
+async function standDeck() {
+  playerValue = document.getElementsByClassName("PLAYERSCORE")[0].innerText
+  if (cpuImage >= 6) {
+    return 
+  }
+  else {
+    cpuImage++
+    await fetch("https://www.deckofcardsapi.com/api/deck/" + deckInfo.deck_id + "/draw/?count=1")
+    .then(response => {
+      return response.json()
+    })
+    .then(data => {
+      cpudata = data
+      return cpudata
+    })
+    checkValue = 0
+    if (cpudata.cards[0].value === "KING" || cpudata.cards[0].value === "QUEEN" || cpudata.cards[0].value === "JACK") {
+      checkValue = 10
+    }
+    else if (cpudata.cards[0].value === "ACE") {
+      checkValue = 11
+    }
+    else {
+      checkValue = cpudata.cards[0].value
+    }
+    document.getElementById("c" + cpuImage).childNodes[0].src = cpudata.cards[0].image
+    document.getElementsByClassName("CPUSCORE")[0].innerText = parseInt(document.getElementsByClassName("CPUSCORE")[0].innerText) + parseInt(checkValue)
+
+    if (parseInt(document.getElementsByClassName("CPUSCORE")[0].innerText) === 17) {
+      if (parseInt(document.getElementsByClassName("CPUSCORE")[0].innerText > playerValue)) {
+        console.log("HOUSE WINS")
+        HouseWin()
+        return
+      }
+      if (parseInt(document.getElementsByClassName("CPUSCORE")[0].innerText < playerValue)) {
+        console.log("PLAYER WINS")
+        PlayerWin()
+        return
+      }
+    }
+    if (parseInt(document.getElementsByClassName("CPUSCORE")[0].innerText) > 21) {
+      console.log("PLAYER WINS")
+      PlayerWin()
+      return
+    }
+    if (parseInt(document.getElementsByClassName("CPUSCORE")[0].innerText) > playerValue && parseInt(document.getElementsByClassName("CPUSCORE")[0].innerText) < 22) {
+      console.log("HOUSE WINS")
+      HouseWin()
+      return
+    }
+
+  setTimeout(standDeck, 1250) 
+  }
 }
