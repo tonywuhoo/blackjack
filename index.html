@@ -6,12 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="blackjack.js"></script>
   <link rel="stylesheet" href="style.css">
-  <title>BlackJack by Tony Wu</title>
+  <title>Blackjack with Snoopy by Tony Wu</title>
 </head>
 <body>
   <div class="modal">
     <div class="modal-content">
-      <span class="content-here">Busted! House Wins.</span>
+      <span class="content-here"><span class="content-text">House Wins.</span><img id="laughingSNOOP"src="background/laughingsnoopy.gif"></span>
+    </div>
+  </div>
+  <div class="rulesModal">
+    <div class="rulesContent">
+      <button class="close-button">x</button>
+      <span class="content">Rules:<br>1.Dealer Shuffles 6 decks of 52 Bicycle Cards.<br>2. The Player is drawn 2 cards, and the house is drawn 2 with the second face down
+      <br>3. The player chooses to either hit or stand. If the player card values exceed 21, the house Wins
+      <br>4. Kings, Queens, Jacks are valued at 10, Aces are at 11
+      <br>5. After player stands,the house goes. House stands at soft 17
+      <br>6. Winner takes all.</span>
     </div>
   </div>
 <div class="board">
@@ -22,6 +32,7 @@
   <div class="stuff">
     <button id="Hit">Hit</button>
     <button id="Stand">Stand</button>
+    <button id="Rules">Instructions</button>
   </div>
   <br><br><br><br>
     <img class="firstImage" src="background/snoopyfirstIMAGE.gif">
@@ -64,33 +75,63 @@
 <br>
   <img id = "shuffleImage" src="">
 <script>
+  let modalIMAGE = document.querySelector("#laughingSNOOP")
+  let modaltext = document.querySelector(".content-text")
+  console.log(modalIMAGE)
+  let closeButton = document.querySelector(".close-button");
+  let rulesModal = document.querySelectorAll(".rulesModal")
+  let getRules = document.getElementById("Rules")
+  closeButton.addEventListener("click", CloseModal);
+  getRules.addEventListener("click", showRules)
+  function showRules(){
+    console.log(rulesModal[0].classList.toggle("show-rulesModal"))
+  }
+  function CloseModal() {
+    rulesModal[0].classList.toggle("show-rulesModal")
+    }
   let hitButton = document.getElementById("Hit")
-  let standButton = document.querySelector("#Stand")
+  let standButton = document.getElementById("Stand")
+  standButton.addEventListener("click", standDeck)
   hitButton.addEventListener("click", hitDeck)
-  // standButton.addEventListener("click", standDeck)
-
-
   let getCards = document.querySelector(".Cards")
   let startGame = document.getElementsByClassName("startGAME")
   for(let i = 0; i < startGame.length ; i++){
     startGame[i].addEventListener("click", boardStart)
   }
   let modal = document.querySelector(".modal");
-    let modalContent = document.querySelector(".content-here")
-    closeButton.addEventListener("click", CloseModal);
-    function ToggleModal() {
-      modal.classList.toggle("show-modal")
-      setTimeout(continueGame, 2000)
-      function continueGame(){
+  let modalContent = document.querySelector(".content-here");
+
+
+  function continueGame(){
       document.getElementById("p3").childNodes[0].src = ""
       document.getElementById("p4").childNodes[0].src = ""
       document.getElementById("p5").childNodes[0].src = ""
       document.getElementById("p6").childNodes[0].src = ""
+      document.getElementById("c2").childNodes[0].src = ""
+      document.getElementById("c3").childNodes[0].src = ""
+      document.getElementById("c4").childNodes[0].src = ""
+      document.getElementById("c5").childNodes[0].src = ""
+      document.getElementById("c6").childNodes[0].src = ""
       modal.classList.toggle("show-modal")
       boardStart()
-      }
-      return
-    }
+  }
+
+
+  function HouseWin(){
+    modaltext.textContent = "House wins, player broke"
+    modalIMAGE.src = "background/laughingsnoopy.gif"
+    modal.classList.toggle("show-modal")
+    setTimeout(continueGame, 2000)
+    return
+  }
+  function PlayerWin(){
+    modaltext.textContent = "Player wins, snoopy broke"
+    modalIMAGE.src = "background/cryingsnoopy.gif"
+    modal.classList.toggle("show-modal")
+    setTimeout(continueGame, 2000)
+    return
+  }
+
 </script>
 </body>
 </html>
